@@ -17,7 +17,7 @@ app.use(session({
 }))
 
 //an object that has our array of letters to guess
-let lettersGuessed = {
+let view = {
   letters:[]
 }
 
@@ -39,21 +39,32 @@ app.post('/', function(req, res, next){
 //check for valid input
 req.checkBody('guessLetter', "You must type something").notEmpty();
 let errors = req.validationErrors();
+if (errors) {
+  view.errors = errors;
+  console.log(errors);
+  res.render('wordgame', view);
+}
 
-console.log(errors);
+else{
 //check if we've guessed the letter before
  let alreadyGuessed = false;
-  for (let i = 0; i < lettersGuessed.letters.length; i++) {
-    if(lettersGuessed.letters[i] === guessLetter){
+  for (let i = 0; i < view.letters.length; i++) {
+    if(view.letters[i] === guessLetter){
       alreadyGuessed = true;
     }
   }
+  if(view.errors){
+    delete view['errors'];
+    console.log('oh hey there')
+  }
+
 
   //add our letters to an array of letters guessed
   if (!alreadyGuessed) {
-    lettersGuessed.letters.push(guessLetter);
+    view.letters.push(guessLetter);
   }
-  res.render('wordgame', {lettersGuessed:lettersGuessed.letters, errs:errors});
+  res.render('wordgame', view);
+}
 })
 
 app.listen(3000, function(){
