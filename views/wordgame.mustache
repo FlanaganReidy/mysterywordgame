@@ -7,10 +7,18 @@
   <body>
     <h1>Wordly</h1>
     <p>Like... like worldly, but about words, so it's "Wordly". Get it? I'm not like breaking new ground here.</p>
+    {{#validationErrors}}
+    <p>
+    {{msg}}
+    </p>
+    {{/validationErrors}}
     <h3>What Country is this?</h3>
+
+    <p>{{letters}}</p>
+
     <form class="" action="/" method="post">
       <input type="text" name="guessLetter" value="">
-      <button type="submit" name="button"></button>
+      <button type="submit" name="button">Guess</button>
     </form>
 
   </body>
