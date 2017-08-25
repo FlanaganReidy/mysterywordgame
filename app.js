@@ -76,7 +76,14 @@ else{
     if(view.letters[i] === guessLetter){
       alreadyGuessed = true;
     }
+    else if(view.letters[i].toUpperCase() === guessLetter){
+      alreadyGuessed = true;
+    }
+    else if(view.letters[i].toLowerCase() === guessLetter){
+      alreadyGuessed = true;
+    }
   }
+
   if(view.errors){
     delete view['errors'];
   }
@@ -111,7 +118,7 @@ else{
 
   }
   else if(view.numGuesses === 0){
-    view.win = false;
+    view.win =false;
     res.redirect('/newgame')
   }
   else{
