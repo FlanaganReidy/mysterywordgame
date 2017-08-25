@@ -107,7 +107,12 @@ else{
   }
   if (view.unknownWord.toString()===view.countryToGuess.toString()) {
     res.redirect('/newgame');
+    view.win = true;
 
+  }
+  else if(view.numGuesses === 0){
+    view.win = false;
+    res.redirect('/newgame')
   }
   else{
   res.render('wordgame', view);

@@ -10,7 +10,12 @@
 
 
       <h1>Wordly</h1>
+      {{#win}}
       <h1>You Win!!! <br> The word was: {{#countryToGuess}}{{.}}{{/countryToGuess}}</h1>
+      {{/win}}
+      {{^win}}
+      <h1>You Lose!!! <br> The word was: {{#countryToGuess}}{{.}}{{/countryToGuess}}</h1>
+      {{/win}}
       <form class="" action="/newgame" method="post">
         <button type="submit" name="button">Play Again</button>
       </form>
