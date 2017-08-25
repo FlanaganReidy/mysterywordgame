@@ -1,25 +1,42 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <title>Wordly</title>
-  </head>
-  <body>
-    <h1>Wordly</h1>
-    <p>Like... like worldly, but about words, so it's "Wordly". Get it? I'm not like breaking new ground here.</p>
-    {{#errors}}
+
+<head>
+  <meta charset="utf-8">
+  <title>Wordly</title>
+  <link rel="stylesheet" href="public/styles.css">
+</head>
+
+<body>
+  <div class="container">
+
+
+  <h1>Wordly</h1>
+
+  <div class="unknownWord">
+  <h3>What Country is this?</h3>
+  {{#unknownWord}}
+
+      {{.}}
+
+  {{/unknownWord}}
+  <h5>{{countryToGuess}}</h5>
+    </div>
+  <p>{{letters}} Number of guesses left: {{numGuesses}}</p>
+
+  <form class="" action="/" method="post">
+    <input type="text" name="guessLetter" value="">
+    <button type="submit" name="button">Guess</button>
+  </form>
+  
+  {{#errors}}
     <p>
-    {{msg}}
+      {{msg}}
     </p>
-    {{/errors}}
-    <h3>What Country is this?</h3>
+  {{/errors}}
 
-    <p>{{letters}}</p>
+</div>
 
-    <form class="" action="/" method="post">
-      <input type="text" name="guessLetter" value="">
-      <button type="submit" name="button">Guess</button>
-    </form>
+</body>
 
-  </body>
 </html>

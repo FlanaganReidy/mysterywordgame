@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Win Screen</title>
+    <link rel="stylesheet" href="public/styles.css">
+  </head>
+  <body>
+    <div class="container">
+
+
+      <h1>Wordly</h1>
+      <h1>You Win!!! <br> The word was: {{#countryToGuess}}{{.}}{{/countryToGuess}}</h1>
+      <form class="" action="/newgame" method="post">
+        <button type="submit" name="button">Play Again</button>
+      </form>
+    </div>
+  </body>
+</html>

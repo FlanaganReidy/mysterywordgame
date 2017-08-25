@@ -4,8 +4,11 @@ const parseurl = require('parseurl');
 const session = require('express-session');
 const bodyParser = require('body-parser')
 const expressValidator = require('express-validator');
+const countrynames = require('./models/countrynames.js')
+var path = require('path');
 
 let app = express();
+app.use('/public',express.static(path.join(__dirname, '/public')));
 app.engine('mustache', mustacheExpress());
 app.set('views','./views');
 app.set('view engine', 'mustache');
@@ -15,7 +18,6 @@ app.use(session({
   resave: false,
   saveUninitialized: true
 }))
-
 //an object that has our array of letters to guess
 let view = {
   letters:[]
@@ -25,19 +27,41 @@ let view = {
 app.use(bodyParser.urlencoded({extended:false}))
 app.use(expressValidator());
 
-//find out why we would use this
-app.use(express.static('public'));
+
+app.use( function (req, res, next){
+  if(!req.session.game){
+
+    console.log('let\'s start a new game')
+    req.session.game = true;
+    view.letters=[]
+    view.countryToGuess = countrynames.randomName(countrynames.countryList).split('');
+    view.numGuesses = view.countryToGuess.length-1;
+    view.unknownWord = []
+    for (var i = 0; i < view.countryToGuess.length; i++) {
+      view.unknownWord.push('_');
+    }
+    next('route');
+  }
+  else{
+    next();
+  }
+})
 
 //pull up our site first
 app.get('/', function(req, res, next){
-  res.render('wordgame')
+  res.render('wordgame', view);
 })
-//post once we get our input
+
+app.get('/newgame', function(req,res,next){
+  res.render('newgame', view)
+})
+
 app.post('/', function(req, res, next){
   let guessLetter = req.body.guessLetter;
 
 //check for valid input
 req.checkBody('guessLetter', "You must type something").notEmpty();
+req.checkBody('guessLetter', "It must be a letter").isAlpha();
 let errors = req.validationErrors();
 if (errors) {
   view.errors = errors;
@@ -55,17 +79,47 @@ else{
   }
   if(view.errors){
     delete view['errors'];
-    console.log('oh hey there')
   }
 
 
   //add our letters to an array of letters guessed
   if (!alreadyGuessed) {
     view.letters.push(guessLetter);
+    let isRight = false;
+    for (var i = 0; i < view.countryToGuess.length; i++) {
+      if(guessLetter === view.countryToGuess[i]){
+      view.unknownWord[i] = guessLetter;
+      isRight = true;
+      }
+      else if (guessLetter.toUpperCase() === view.countryToGuess[i]) {
+        view.unknownWord[i] = guessLetter.toUpperCase();
+        isRight = true;
+      }
+      else if (guessLetter.toLowerCase() === view.countryToGuess[i]){
+        view.unknownWord[i] = guessLetter.toLowerCase();
+        isRight = true;
+      }
+
+    }
+    if(isRight === false){
+      view.numGuesses--;
+    }
   }
+  if (view.unknownWord.toString()===view.countryToGuess.toString()) {
+    res.redirect('/newgame');
+
+  }
+  else{
   res.render('wordgame', view);
 }
+}
 })
+
+app.post('/newgame', function(req,res,next){
+  req.session.game = false;
+  res.redirect('/')
+})
+
 
 app.listen(3000, function(){
   console.log('let\'s get you rollin');
