@@ -1,7 +1,7 @@
 const express = require('express');
 const mustacheExpress = require('mustache-express');
 const parseurl = require('parseurl');
-const session = require('cookie-session');
+const cookieSession = require('cookie-session');
 const bodyParser = require('body-parser')
 const expressValidator = require('express-validator');
 const countrynames = require('./models/countrynames.js')
@@ -19,7 +19,6 @@ app.use(cookieSession({
   // Cookie Options
   maxAge: 24 * 60 * 60 * 1000 // 24 hours
 }))
-
 //an object that has our whole page
 let view = {
   letters:[]
