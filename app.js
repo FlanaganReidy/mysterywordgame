@@ -13,11 +13,14 @@ app.engine('mustache', mustacheExpress());
 app.set('views','./views');
 app.set('view engine', 'mustache');
 
-app.use(session({
-  secret: 'keyboard cat',
-  resave: false,
-  saveUninitialized: true
+app.use(cookieSession({
+  name: 'session',
+  keys: [/* secret keys */],
+
+  // Cookie Options
+  maxAge: 24 * 60 * 60 * 1000 // 24 hours
 }))
+
 //an object that has our whole page
 let view = {
   letters:[]
