@@ -4,7 +4,8 @@ const parseurl = require('parseurl');
 const cookieSession = require('cookie-session');
 const bodyParser = require('body-parser')
 const expressValidator = require('express-validator');
-const countrynames = require('./models/countrynames.js')
+const countrynames = require('./models/countrynames.js');
+const PORT = process.env.PORT || 3000;
 var path = require('path');
 
 let app = express();
@@ -135,6 +136,6 @@ app.post('/newgame', function(req,res,next){
 })
 
 
-app.listen(3000 || process.env.PORT, function(){
-  console.log('let\'s get you rollin');
+app.listen(PORT, function(){
+  console.log('let\'s get you rollin on' + PORT);
 })
