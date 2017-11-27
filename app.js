@@ -18,7 +18,7 @@ app.use(session({
   resave: false,
   saveUninitialized: true
 }))
-//an object that has our array of letters to guess
+//an object that has our whole page
 let view = {
   letters:[]
 }
@@ -36,7 +36,7 @@ app.use( function (req, res, next){
     view.letters=[]
     view.countryToGuess = countrynames.randomName(countrynames.countryList).split('');
     view.numGuesses = view.countryToGuess.length-1;
-    view.unknownWord = []
+    view.unknownWord = [];
     for (var i = 0; i < view.countryToGuess.length; i++) {
       view.unknownWord.push('_');
     }
