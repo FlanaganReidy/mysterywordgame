@@ -135,6 +135,6 @@ app.post('/newgame', function(req,res,next){
 })
 
 
-app.listen(3000, function(){
+app.listen(3000 || process.env.PORT, function(){
   console.log('let\'s get you rollin');
 })
