@@ -16,7 +16,8 @@ app.set('view engine', 'mustache');
 app.use(cookieSession({
   name: 'session',
 
-  // Cookie Options
+  keys: [],
+
   maxAge: 24 * 60 * 60 * 1000 // 24 hours
 }))
 //an object that has our whole page
